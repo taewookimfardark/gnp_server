@@ -1,0 +1,27 @@
+application: woowha-1370
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: .*
+  script: application.app
+
+libraries:
+- name: jinja2
+  version: "2.6"
+- name: markupsafe
+  version: "0.15"
+- name: MySQLdb
+  version: "1.2.5"
+- name: pycrypto
+  version: "latest"
+
+
+skip_files:
+- ^(venv/lib/python2.7/site-packages/MYSQL.*)
+
+
+env_variables:
+  KEY: 'foo'
