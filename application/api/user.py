@@ -36,3 +36,26 @@ def get_users():
         data = query_list
     )
 
+@api.route('/users', methods=['POST'])
+def post_users():
+    request_params = request.get_json()
+    email = request_params.get('email')
+    password = request_params.get('password')
+    backnumber = request_params.get('backnumber')
+    name = request_params.get('name')
+    info = request_params.get('info')
+    q = db.session.query(User).filter(User.email == email)
+    if q.count() > 0:
+        return jsonify(
+            userMessage="your email is already enrolled"
+        )
+    user = User(email=email, password=password, name=name,info=info, backnumber=backnumber)
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(
+        data=model_to_dict(user),
+        token=user.get_token_string()
+    )
+
+
+
