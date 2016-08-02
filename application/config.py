@@ -7,13 +7,13 @@ class Config :
     SQLALCHEMY_TRACK_MODIFICATION = True
     @classmethod
     def init_app(cls,app):
-        SCHEMA_NAME = "wooo"
+        SCHEMA_NAME = "gnp_schema"
         if os.getenv('SERVER_SOFTWARE'):
             # google server
             if os.getenv('SERVER_SOFTWARE').startswith('Google App Engine/'):
                 cls.SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root@127.0.0.1:3306/' \
                                                 + SCHEMA_NAME + \
-                                                '?unix_socket=/cloudsql/woowha-1370:woo?charset=utf8'
+                                                '?unix_socket=/cloudsql/bucket-1362:gnpsql?charset=utf8'
             print "google server log"
         else:
             # local
