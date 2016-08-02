@@ -18,7 +18,7 @@ class Config :
         else:
             # local
             print "local run"
-            cls.SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://taewookim:1234@173.194.242.136:3306/' + SCHEMA_NAME
+            cls.SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://taewookim:1234@173.194.87.232:3306/' + SCHEMA_NAME
 
         app.config.from_object(cls)
         return app

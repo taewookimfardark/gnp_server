@@ -11,7 +11,7 @@ from application.lib.rest.auth_helper import (
     required_token
 )
 
-from application.lib.storage.cloud_storage_helper import upload_image
+#from application.lib.storage.cloud_storage_helper import upload_image
 
 import json
 import sys
