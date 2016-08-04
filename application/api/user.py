@@ -11,6 +11,9 @@ from application.lib.rest.auth_helper import (
     required_token
 )
 
+from sqlalchemy import and_
+from sqlalchemy import or_
+
 #from application.lib.storage.cloud_storage_helper import upload_image
 
 import json
@@ -57,5 +60,19 @@ def post_users():
         token=user.get_token_string()
     )
 
+@api.route('/login', methods=['POST'])
+def login():
+    request_params = request.get_json()
+    email = request_params.get('email')
+    password = request_params.get('password')
+    user = db.session.query(User).filter(and_(User.email == email, User.password == password)).first()
+    if user is None:
+        return jsonify(
+            userMessage="Please check your email or password"
+        )
+    data = model_to_dict(user)
+    return jsonify(
+        data=data
+    )
 
 
