@@ -48,5 +48,20 @@ def post_matches():
     db.session.add(match)
     db.session.commit()
     return jsonify(
-        data=model_to_dict(match),
+        data=model_to_dict(match)
     )
+
+@api.route('/matches/<int:matchid>', methods=['GET'])
+def get_matches_by_id(matchid):
+    match = Match.query.get(matchid)
+    return jsonify(
+        data=model_to_dict(match)
+    )
+
+# @api.route('/matches/<int:matchid>', methods=['GET'])
+# def get_match_by_id(matchid):
+#     match = Match.query.get(matchid)
+#     return jsonify(
+#         data=model_to_dict(match)
+#     )
+
