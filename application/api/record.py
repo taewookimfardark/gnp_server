@@ -1,6 +1,6 @@
 from . import api
 from application import db
-from application.models.record import(PlayerRecord,MatchRecord)
+from application.models.record import(, UserPlayerRecord,MatchRecord)
 
 from flask import request, jsonify
 from application.lib.rest.rest_query_helper import (
@@ -17,4 +17,9 @@ import json
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+#@api.route('/recordusers',methods=['POST'])
+#def post_record_users():
+
+
 

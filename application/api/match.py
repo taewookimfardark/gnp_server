@@ -1,6 +1,7 @@
 from . import api
 from application import db
 from application.models.match import Match
+from application.models.user import User
 
 from flask import request, jsonify
 from application.lib.rest.rest_query_helper import (
@@ -57,6 +58,23 @@ def get_matches_by_id(matchid):
     return jsonify(
         data=model_to_dict(match)
     )
+
+@api.route('/matchrecord/<int:matchid>',methods=['GET'])
+def get_matches_users(matchid):
+    users = User.query.all()
+    user_query_list = []
+    for user in users:
+        temp = model_to_dict(user)
+        user_query_list.append(temp)
+
+    match = Match.query.get(matchid)
+
+    return jsonify(
+        userdata=user_query_list,
+        matchdata=model_to_dict(match)
+    )
+
+
 
 # @api.route('/matches/<int:matchid>', methods=['GET'])
 # def get_match_by_id(matchid):
