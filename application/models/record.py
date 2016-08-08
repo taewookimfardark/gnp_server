@@ -14,9 +14,9 @@ class PlayerRecord(db.Model):
         )
     )
     games = db.Column(db.Integer)
-    points = db.Column(db.String(100))
-    rebounds = db.Column(db.String(100))
-    assists = db.Column(db.String(100))
+    points = db.Column(db.Integer)
+    rebounds = db.Column(db.Integer)
+    assists = db.Column(db.Integer)
 
 class MatchRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +38,6 @@ class MatchRecord(db.Model):
             lazy='dynamic'
         )
     )
-    point = db.Column(db.String(100))
-    rebound = db.Column(db.String(100))
-    assist = db.Column(db.String(100))
+    point = db.Column(db.Integer)
+    rebound = db.Column(db.Integer)
+    assist = db.Column(db.Integer)
