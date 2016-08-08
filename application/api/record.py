@@ -25,11 +25,11 @@ def post_record_users():
     for param in request_params:
         userid = param.get('userid')
         matchid = param.get('matchid')
-        point = int(param.get('point'))
-        assis = int(param.get('assist'))
-        rebound = int(param.get('rebound'))
-        temp_record = MatchRecord(userid=userid,matchid=matchid,point=point,assis=assis,rebound=rebound)
-        db.session.dd(temp_record)
+        point = param.get('point')
+        assist = param.get('assist')
+        rebound = param.get('rebound')
+        temp_record = MatchRecord(userid=userid,matchid=matchid,point=point,assist=assist,rebound=rebound)
+        db.session.add(temp_record)
     db.session.commit()
 
     return "success"
