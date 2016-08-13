@@ -22,3 +22,6 @@ class Config :
 
         app.config.from_object(cls)
         return app
+
+
+

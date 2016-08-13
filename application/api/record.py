@@ -20,19 +20,18 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-@api.route('/recordplayers', methods=['GET'])
+@api.route('/playerrecords', methods=['GET'])
 def get_record_players():
     player_records = PlayerRecord.query.all()
     query_list = []
     for record in player_records:
         temp = model_to_dict(record)
-        print temp
         query_list.append(temp)
     return jsonify(
         data = query_list
     )
 
-@api.route('/recordmatches', methods=['GET'])
+@api.route('/matchrecords', methods=['GET'])
 def get_record_matches():
     match_records = MatchRecord.query.all()
     query_list = []
@@ -44,7 +43,7 @@ def get_record_matches():
     )
 
 
-@api.route('/recordusers',methods=['POST'])
+@api.route('/playerrecords',methods=['POST'])
 def post_record_users():
     request_params = request.get_json()
     for param in request_params:
@@ -53,15 +52,17 @@ def post_record_users():
         point = param.get('point')
         assist = param.get('assist')
         rebound = param.get('rebound')
-        temp_record = MatchRecord(userid=userid,matchid=matchid,point=point,assist=assist,rebound=rebound)
+        temp_record = MatchRecord(userid=userid, matchid=matchid, point=point, assist=assist, rebound=rebound)
         db.session.add(temp_record)
     db.session.commit()
 
     return "success"
 
+
 @api.route('/recordmatches/<int:matchid>', methods=['PUT'])
 def put_match_user_record(matchid):
     print request.get_json()
+    # try:
     match = Match.query.get(matchid)
     matchparam = request.get_json()[0]
     match.finish = matchparam.get('finish')
@@ -88,22 +89,36 @@ def put_match_user_record(matchid):
             temp_user.rebounds = int(temp_user.rebounds) + param.get('rebound')
             db.session.add(temp_user)
     db.session.commit()
+    # except:
+    #     db.session.rollback(
 
     return "success"
 
-@api.route('/playerrecord/page', methods=['GET'])
-def player_record_page():
-    playerrecords = PlayerRecord.query.all()
-    data = []
-    for playerrecord in playerrecords:
-        temp = []
-        temp_user_data = User.query.get(playerrecord.userid)
-        temp.append(model_to_dict(temp_user_data))
-        temp.append(model_to_dict(playerrecord))
-        data.append(temp)
-    return jsonify(
-        data=data
-    )
+# @api.route('/playerrecord/page', methods=['GET'])
+# def player_record_page():
+#     playerrecords = PlayerRecord.query.all()
+#     data = []
+#     for playerrecord in playerrecords:
+#         temp = []
+#         temp_user_data = User.query.get(playerrecord.userid)
+#         temp.append(model_to_dict(temp_user_data))
+#         temp.append(model_to_dict(playerrecord))
+#         data.append(temp)
+
+    # q = db.session.query(PlayerRecord, User)\
+    #     .join(User, User.id == PlayerRecord.userid) \
+    #
+    # record_user_rows = q.all()
+    # data = []
+    # for (recode, user) in record_user_rows:
+    #     data.append({
+    #         'recode': model_to_dict(recode) if recode else None,
+    #         'user': model_to_dict(user) if user
+    #     })
+
+    # return jsonify(
+    #     data=data
+    # )
 
 
 
