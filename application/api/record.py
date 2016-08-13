@@ -94,6 +94,25 @@ def put_match_user_record(matchid):
 
     return "success"
 
+@api.route('/recordpage',methods=['GET'])
+def recordpage():
+    query = db.session.query(PlayerRecord, User) \
+        .join(User, User.id == PlayerRecord.userid)
+
+    query_datas = query.all()
+    data = []
+    for (record, user) in query_datas:
+        data.append({
+            'record': model_to_dict(record) if record else None,
+            'user': model_to_dict(user) if user else None
+        })
+    return jsonify(
+        data = data
+    )
+
+
+
+
 # @api.route('/playerrecord/page', methods=['GET'])
 # def player_record_page():
 #     playerrecords = PlayerRecord.query.all()
