@@ -110,6 +110,18 @@ def recordpage():
         data = data
     )
 
+@api.route('/matchrecords/user/<int:userid>',methods=['GET'])
+def get_match_record_by_userid(userid):
+    query = db.session.query(PlayerRecord).filter(PlayerRecord.userid == userid)
+    records = query.all()
+    data = []
+    for record in records:
+        temp = model_to_dict(record)
+        data.append(temp)
+    return jsonify(
+        data = data
+    )
+
 
 
 
