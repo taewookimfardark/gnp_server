@@ -31,6 +31,14 @@ def get_record_players():
         data = query_list
     )
 
+@api.route('/playerrecords/<int:userid>',methods=['GET'])
+def get_player_record_by_userid(userid):
+    query = db.session.query(PlayerRecord).filter(PlayerRecord.userid == userid)
+    data = model_to_dict(query.first())
+    return jsonify(
+        data = data
+    )
+
 @api.route('/matchrecords', methods=['GET'])
 def get_record_matches():
     match_records = MatchRecord.query.all()
@@ -97,8 +105,8 @@ def put_match_user_record(matchid):
 @api.route('/recordpage',methods=['GET'])
 def recordpage():
     query = db.session.query(PlayerRecord, User) \
-        .join(User, User.id == PlayerRecord.userid)
-
+        .join(User, User.id == PlayerRecord.userid) \
+        .join()
     query_datas = query.all()
     data = []
     for (record, user) in query_datas:
@@ -110,9 +118,28 @@ def recordpage():
         data = data
     )
 
+@api.route('/mainpage/<int:userid>', methods=['GET'])
+def get_record_match(userid):
+    query = db.session.query(MatchRecord, Match).filter(MatchRecord.userid == userid) \
+        .join(Match, Match.id == MatchRecord.matchid) \
+        .join()
+    query_datas = query.all()
+    print query_datas
+    data = []
+    for(matchrecord, match) in query_datas:
+        data.append(
+            {
+                'matchrecord': model_to_dict(matchrecord) if matchrecord else None,
+                'match': model_to_dict(match) if match else None
+            }
+        )
+    return jsonify(
+        data = data
+    )
+
 @api.route('/matchrecords/user/<int:userid>',methods=['GET'])
 def get_match_record_by_userid(userid):
-    query = db.session.query(PlayerRecord).filter(PlayerRecord.userid == userid)
+    query = db.session.query(MatchRecord).filter(MatchRecord.userid == userid)
     records = query.all()
     data = []
     for record in records:
@@ -123,33 +150,6 @@ def get_match_record_by_userid(userid):
     )
 
 
-
-
-# @api.route('/playerrecord/page', methods=['GET'])
-# def player_record_page():
-#     playerrecords = PlayerRecord.query.all()
-#     data = []
-#     for playerrecord in playerrecords:
-#         temp = []
-#         temp_user_data = User.query.get(playerrecord.userid)
-#         temp.append(model_to_dict(temp_user_data))
-#         temp.append(model_to_dict(playerrecord))
-#         data.append(temp)
-
-    # q = db.session.query(PlayerRecord, User)\
-    #     .join(User, User.id == PlayerRecord.userid) \
-    #
-    # record_user_rows = q.all()
-    # data = []
-    # for (recode, user) in record_user_rows:
-    #     data.append({
-    #         'recode': model_to_dict(recode) if recode else None,
-    #         'user': model_to_dict(user) if user
-    #     })
-
-    # return jsonify(
-    #     data=data
-    # )
 
 
 
