@@ -21,6 +21,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 @api.route('/playerrecords', methods=['GET'])
+@required_token
 def get_record_players():
     player_records = PlayerRecord.query.all()
     query_list = []
@@ -32,6 +33,7 @@ def get_record_players():
     )
 
 @api.route('/playerrecords/<int:userid>',methods=['GET'])
+@required_token
 def get_player_record_by_userid(userid):
     query = db.session.query(PlayerRecord).filter(PlayerRecord.userid == userid)
     data = model_to_dict(query.first())
@@ -40,6 +42,7 @@ def get_player_record_by_userid(userid):
     )
 
 @api.route('/matchrecords', methods=['GET'])
+@required_token
 def get_record_matches():
     match_records = MatchRecord.query.all()
     query_list = []
@@ -52,6 +55,7 @@ def get_record_matches():
 
 
 @api.route('/playerrecords',methods=['POST'])
+@required_token
 def post_record_users():
     request_params = request.get_json()
     for param in request_params:
@@ -68,6 +72,7 @@ def post_record_users():
 
 
 @api.route('/recordmatches/<int:matchid>', methods=['PUT'])
+@required_token
 def put_match_user_record(matchid):
     print request.get_json()
     # try:
@@ -103,6 +108,7 @@ def put_match_user_record(matchid):
     return "success"
 
 @api.route('/recordpage',methods=['GET'])
+@required_token
 def recordpage():
     query = db.session.query(PlayerRecord, User) \
         .join(User, User.id == PlayerRecord.userid) \
@@ -119,6 +125,7 @@ def recordpage():
     )
 
 @api.route('/mainpage/<int:userid>', methods=['GET'])
+@required_token
 def get_record_match(userid):
     query = db.session.query(MatchRecord, Match).filter(MatchRecord.userid == userid) \
         .join(Match, Match.id == MatchRecord.matchid) \
@@ -138,6 +145,7 @@ def get_record_match(userid):
     )
 
 @api.route('/matchrecords/user/<int:userid>',methods=['GET'])
+@required_token
 def get_match_record_by_userid(userid):
     query = db.session.query(MatchRecord).filter(MatchRecord.userid == userid)
     records = query.all()

@@ -27,6 +27,7 @@ def heool():
     return "hello woohwa"
 
 @api.route("/users", methods=['GET'])
+@required_token
 def get_users():
     users = User.query.all()
     query_list = []
@@ -71,8 +72,10 @@ def login():
             userMessage="Please check your email or password"
         )
     data = model_to_dict(user)
+    token = user.get_token_string()
     return jsonify(
-        data=data
+        data=data,
+        token=token
     )
 
 

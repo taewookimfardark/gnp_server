@@ -22,6 +22,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 @api.route("/matches", methods=['GET'])
+@required_token
 def get_matches():
     matches = Match.query.all()
     query_list = []
@@ -55,6 +56,7 @@ def post_matches():
     )
 
 @api.route('/matches/<int:matchid>', methods=['GET'])
+@required_token
 def get_matches_by_id(matchid):
     match = Match.query.get(matchid)
     return jsonify(
